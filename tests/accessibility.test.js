@@ -12,27 +12,22 @@ let excludedRules = ['landmark-one-main'];
 describe('accessibility', () => {
 
   beforeAll(async (done) => {
-    console.log("====calling openBrowser====");
     await openBrowser();
-    console.log("====finished calling openBrowser====");
     done();
   });
 
   afterAll(async () => {
-    console.log("====calling closeBrowser====");
     await closeBrowser();
-    console.log("====finished calling closeBrowser====");
   });
 
   urls.forEach(url => {
     test(`${url}`, async () => {
-      console.log(`====running test fo ${url}===`);
       jest.setTimeout(20000);
       await goto(url);
       await screenshot({path: `./logs/screenshot-for-${url.replace(/file.*\/_build\/(.*)\.html/g,'$1').replace(/\//g,'-')}.png`})
       const audit = await accessibility.runAudit();
       let violations = audit.violations.filter(v => !excludedRules.includes(v.id))
-      ok(audit.score >= 97, `Expected: >= ${97}\nReceived:    ${audit.score}`);
+      ok(audit.score >= 97, `Expected: >= ${97}\nReceived:    ${audit.score} for ${url}`);
       equal(violations.length, 0, violations)
     });
   })
