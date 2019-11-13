@@ -12,15 +12,20 @@ let excludedRules = ['landmark-one-main'];
 describe('accessibility', () => {
 
   beforeAll(async () => {
+    console.log("====calling openBrowser====");
     await openBrowser();
+    console.log("====finished calling openBrowser====");
   });
 
   afterAll(async () => {
+    console.log("====calling closeBrowser====");
     await closeBrowser();
+    console.log("====finished calling closeBrowser====");
   });
 
   urls.forEach(url => {
     test(`${url}`, async () => {
+      console.log(`====running test fo ${url}===`);
       jest.setTimeout(20000);
       await goto(url);
       const audit = await accessibility.runAudit();
