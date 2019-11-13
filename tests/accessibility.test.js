@@ -4,7 +4,7 @@
 // Once this issue is fixed uncomment the taiko script and remove jest tests and dependency.
 
 
-const { accessibility, closeBrowser, goto, openBrowser } = require('taiko');
+const { accessibility, closeBrowser, goto, openBrowser, screenshot } = require('taiko');
 const { ok, equal } = require('assert');
 const urls = require('./urls.json');
 let excludedRules = ['landmark-one-main'];
@@ -29,6 +29,7 @@ describe('accessibility', () => {
       console.log(`====running test fo ${url}===`);
       jest.setTimeout(20000);
       await goto(url);
+      await screenshot({path: `./logs/screenshot-for-${url.replace(/file.*\/_build\/(.*)\.html/g,'$1').replace(/\//g,'-')}.png`})
       const audit = await accessibility.runAudit();
       let violations = audit.violations.filter(v => !excludedRules.includes(v.id))
       ok(audit.score >= 97, `Expected: >= ${97}\nReceived:    ${audit.score}`);
