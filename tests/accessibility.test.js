@@ -11,10 +11,11 @@ let excludedRules = ['landmark-one-main'];
 
 describe('accessibility', () => {
 
-  beforeAll(async () => {
+  beforeAll(async (done) => {
     console.log("====calling openBrowser====");
     await openBrowser();
     console.log("====finished calling openBrowser====");
+    done();
   });
 
   afterAll(async () => {
